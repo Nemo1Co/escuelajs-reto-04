@@ -42,15 +42,14 @@ const waiter2 = (ordersArray) => {
 };
 
 const waiter3 = (ordersArray) => {
-  const prueba = async () => {
+  const waiterInternal = async () => {
     const ordersAll = new Array(3);
     ordersAll[0] = await orders(ordersArray[0], ordersArray[1]);
     ordersAll[1] = await orders(ordersArray[2], ordersArray[3]);
     ordersAll[2] = await orders(ordersArray[4], ordersArray[5]);
     return ordersAll;
   };
-
-  prueba()
+  waiterInternal()
     .then((response) => { response.forEach((element) => { console.log(element); }); })
     .catch((error) => { console.warn(error); });
 };
