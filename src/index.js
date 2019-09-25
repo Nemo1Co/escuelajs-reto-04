@@ -31,4 +31,15 @@ const waiter = () => {
     .catch((error) => { console.warn(error); });
 };
 
+const waiter2 = () => {
+  orders(menu.hotdog, table[0])
+    .then((response) => { console.log(response); })
+    .catch((error) => { console.warn(error); });
+
+  orders(menu.pizza, table[2])
+    .then((response) => { console.log(response); })
+    .catch((error) => { console.warn(error); });
+};
+
 waiter();
+waiter2();
