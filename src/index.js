@@ -31,4 +31,5 @@ const waiter = () => {
     .catch((error) => { console.warn(error); });
 };
 
-waiter();
+// Los pedidos también llegan aleatoriamente, como en la vida real :V
+setTimeout(() => { waiter(); }, randomTime(2000));
