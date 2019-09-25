@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-const randomTime = (max) => Math.ceil(Math.random() * max);
+const randomTime = (min, max) => Math.ceil(Math.random() * (max - min) + min);
 
 const orders = (product, table) => {
   console.log(`### Orden: ${product} para ${table}\n`);
   return new Promise((resolve, reject) => {
-    const time = randomTime(8000);
+    const time = randomTime(1000, 8200);
     setTimeout(() => {
-      if (time < 7500) {
+      if (time < 8000) {
         resolve(`=== Pedido servido: ${product}, tiempo de preparación ${time}ms para la ${table}\n`);
       } else {
         // simulate case reject when time is long in ms
@@ -32,4 +32,4 @@ const waiter = () => {
 };
 
 // Los pedidos también llegan aleatoriamente, como en la vida real :V
-setTimeout(() => { waiter(); }, randomTime(2000));
+setTimeout(() => { waiter(); }, randomTime(1000, 2000));
