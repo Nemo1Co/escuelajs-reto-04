@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-const randomTime = (max) => Math.ceil(Math.random() * max);
+const randomTime = (min, max) => Math.ceil(Math.random() * (max - min) + min);
 
 const orders = (product, table) => {
   console.log(`### Orden: ${product} para ${table}\n`);
   return new Promise((resolve, reject) => {
-    const time = randomTime(9000);
+    const time = randomTime(1000, 8200);
     setTimeout(() => {
       if (time < 8000) {
         resolve(`=== Pedido servido: ${product}, tiempo de preparación ${time}ms para la ${table}\n`);
@@ -42,11 +42,10 @@ const waiter2 = (ordersArray) => {
 };
 
 // Orders also arrive randomly, as in real life :V
-const timeOrders = 3000;
 setTimeout(() => {
   waiter([menu.hamburger, table[3]]);
-}, randomTime(timeOrders));
+}, randomTime(1000, 3000));
 
 setTimeout(() => {
   waiter2([menu.hotdog, table[0], menu.pizza, table[2]]);
-}, randomTime(timeOrders));
+}, randomTime(1000, 3000));
