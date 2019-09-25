@@ -17,6 +17,13 @@ const orders = (product, table) => {
   });
 };
 
+const fetch = require('node-fetch');
+
+function fetchOrders() {
+  const URL = 'https://us-central1-escuelajs-api.cloudfunctions.net/orders';
+  return fetch(URL);
+}
+
 const menu = {
   hamburger: 'Combo Hamburguesa',
   hotdog: 'Combo Hot Dogs',
@@ -42,17 +49,28 @@ const waiter2 = (ordersArray) => {
 };
 
 const waiter3 = (ordersArray) => {
-  const prueba = async () => {
+  const waiterInternal = async () => {
     const ordersAll = new Array(3);
     ordersAll[0] = await orders(ordersArray[0], ordersArray[1]);
     ordersAll[1] = await orders(ordersArray[2], ordersArray[3]);
     ordersAll[2] = await orders(ordersArray[4], ordersArray[5]);
     return ordersAll;
   };
-
-  prueba()
+  waiterInternal()
     .then((response) => { response.forEach((element) => { console.log(element); }); })
     .catch((error) => { console.warn(error); });
+};
+
+const waiter4 = (tableIs) => {
+  const allFetch = new Array(4).fill(0).map(() => fetchOrders());
+  const objData = async (obj) => {
+    await orders(obj.data, tableIs)
+      .then((response) => { console.log(response); })
+      .catch((error) => { console.warn(error); });
+  };
+  Promise.all(allFetch)
+    .then((response) => response.forEach((promise) => promise.json().then(objData)))
+    .catch((error) => console.warn(error));
 };
 
 // Orders also arrive randomly, as in real life :V
@@ -67,3 +85,7 @@ setTimeout(() => {
 setTimeout(() => {
   waiter3([menu.hotdog, table[1], menu.pizza, table[1], menu.hotdog, table[1]]);
 }, randomTime(1000, 3000));
+
+setTimeout(() => {
+  waiter4(table[4]);
+}, randomTime(200, 2000));
