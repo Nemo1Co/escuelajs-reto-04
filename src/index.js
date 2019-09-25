@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const randomTime = (max) => Math.ceil(Math.random() * max);
 
 const orders = (product, table) => {
@@ -9,7 +10,7 @@ const orders = (product, table) => {
         resolve(`=== Pedido servido: ${product}, tiempo de preparación ${time}ms para la ${table}`);
       }, time);
     } else {
-      reject(new Error(`--- No se puede cumplir el pedido: ${product} de la mesa ${table}`));
+      reject(new Error(`--- No se puede cumplir el pedido: ${product} de la mesa ${table}. Demora`));
     }
   });
 };
