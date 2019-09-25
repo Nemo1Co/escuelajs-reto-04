@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-const randomTime = (max) => Math.ceil(Math.random() * max);
+const randomTime = (min, max) => Math.ceil(Math.random() * (max - min) + min);
 
 const orders = (product, table) => {
   console.log(`### Orden: ${product} para ${table}\n`);
   return new Promise((resolve, reject) => {
-    const time = randomTime(9000);
+    const time = randomTime(1000, 8200);
     setTimeout(() => {
       if (time < 8000) {
         resolve(`=== Pedido servido: ${product}, tiempo de preparación ${time}ms para la ${table}\n`);
@@ -41,12 +41,29 @@ const waiter2 = (ordersArray) => {
     .catch((error) => { console.warn(error); });
 };
 
+const waiter3 = (ordersArray) => {
+  const prueba = async () => {
+    const ordersAll = new Array(3);
+    ordersAll[0] = await orders(ordersArray[0], ordersArray[1]);
+    ordersAll[1] = await orders(ordersArray[2], ordersArray[3]);
+    ordersAll[2] = await orders(ordersArray[4], ordersArray[5]);
+    return ordersAll;
+  };
+
+  prueba()
+    .then((response) => { response.forEach((element) => { console.log(element); }); })
+    .catch((error) => { console.warn(error); });
+};
+
 // Orders also arrive randomly, as in real life :V
-const timeOrders = 3000;
 setTimeout(() => {
   waiter([menu.hamburger, table[3]]);
-}, randomTime(timeOrders));
+}, randomTime(1000, 3000));
 
 setTimeout(() => {
   waiter2([menu.hotdog, table[0], menu.pizza, table[2]]);
-}, randomTime(timeOrders));
+}, randomTime(1000, 3000));
+
+setTimeout(() => {
+  waiter3([menu.hotdog, table[1], menu.pizza, table[1], menu.hotdog, table[1]]);
+}, randomTime(1000, 3000));
